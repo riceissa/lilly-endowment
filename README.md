@@ -4,7 +4,7 @@ This is for the Donations List Website: https://github.com/vipulnaik/donations
 
 Specific issue: https://github.com/vipulnaik/donations/issues/66
 
-# How to get a new data and generate the SQL statements
+# How to get new data and generate the SQL statements
 
 NOTE: the months and focus areas are hard-coded into `wget-commands.sh`, so
 before you run that script you will need to determine the new months/focus
@@ -24,7 +24,7 @@ cd data-retrieved-$today
 cd ..
 
 # Use the HTML files to generate a SQL file containing insert statements
-./proc.py data-retrieved-$today/* > out.sql
+./proc.py data-retrieved-$today/* > out-$today.sql
 ```
 
 # License
