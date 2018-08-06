@@ -62,9 +62,11 @@ def grant_url(focus_area, month):
 
 
 def print_sql(grants_generator):
-    print("""insert into donations (donor, donee, amount, donation_date, donation_date_precision donation_date_basis, cause_area, url, donor_cause_area_url, notes, affected_cities) values""")
+    insert_stmt = """insert into donations (donor, donee, amount, donation_date, donation_date_precision, donation_date_basis, cause_area, url, donor_cause_area_url, notes, affected_cities) values"""
     first = True
     for grant in grants_generator:
+        if first:
+            print(insert_stmt)
         print(("    " if first else "    ,") + "(" + ",".join([
             mysql_quote("Lilly Endowment"),  # donor
             mysql_quote(grant["grantee"]),  # donee
@@ -74,11 +76,15 @@ def print_sql(grants_generator):
             mysql_quote("donation log"),  # donation_date_basis
             mysql_quote(grant["focus_area"]),  # cause_area
             mysql_quote(grant["url"]),  # url
+            mysql_quote(""),  # donor_cause_area_url
             mysql_quote("Purpose: " + grant["purpose"]),  # notes
             mysql_quote(grant["grantee_location"]),  # affected_cities
         ]) + ")")
         first = False
-    print(";")
+    if not first:
+        # If first is still true, that means we printed nothing above,
+        # so no need to print the semicolon
+        print(";")
 
 if __name__ == "__main__":
     main()
